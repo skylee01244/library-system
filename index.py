@@ -5,7 +5,7 @@ import sys
 
 from PyQt6.uic import loadUiType
 
-ui,_ = loadUiType('library.ui')
+ui,_ = loadUiType('untitled.ui')
 
 class MainApp(QMainWindow, ui):
     def __init__(self):
