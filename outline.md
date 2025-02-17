@@ -3,6 +3,7 @@ Tools
 - mySQL server
 - mySQL workbench
 - pycharm
+- Qt6           // do pip install pyQt6
 
 Project structure:
 - Add new book 

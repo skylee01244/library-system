@@ -27,8 +27,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="icons.qrc">
-      <normaloff>:/icons/today.png</normaloff>:/icons/today.png</iconset>
+     <iconset>
+      <normaloff>icons/today.png</normaloff>icons/today.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -50,8 +50,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="icons.qrc">
-      <normaloff>:/icons/book.png</normaloff>:/icons/book.png</iconset>
+     <iconset>
+      <normaloff>icons/book.png</normaloff>icons/book.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -73,8 +73,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="icons.qrc">
-      <normaloff>:/icons/users.png</normaloff>:/icons/users.png</iconset>
+     <iconset>
+      <normaloff>icons/users.png</normaloff>icons/users.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -96,8 +96,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="icons.qrc">
-      <normaloff>:/icons/settings.png</normaloff>:/icons/settings.png</iconset>
+     <iconset>
+      <normaloff>icons/settings.png</normaloff>icons/settings.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -119,8 +119,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="icons.qrc">
-      <normaloff>:/icons/theme.png</normaloff>:/icons/theme.png</iconset>
+     <iconset>
+      <normaloff>icons/theme.png</normaloff>icons/theme.png</iconset>
     </property>
     <property name="iconSize">
      <size>
