@@ -52,8 +52,29 @@ class MainApp(QMainWindow, ui):
 
     #################################
     ########## BOOKS ################
+    def Add_New_Book(self):
+        pass
 
+    def Search_Books(self):
+        pass
 
+    def Edit_Books(self):
+        pass
+
+    def Delete_Books(self):
+        pass
+
+    #################################
+    ########## USERS ################
+
+    def Add_New_User(self):
+        pass
+
+    def Login(self):
+        pass
+
+    def Edit_User(self):
+        pass
 
 def main():
     app = QApplication(sys.argv)
