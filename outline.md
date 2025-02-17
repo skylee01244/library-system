@@ -16,15 +16,30 @@ Project structure:
 - Reports [excel files] 
 
 Book
-- Title 
-- Description
-- Category
-- Price
-- Author
-- Publisher
+    - Title 
+    - Code
+    - Description
+    - Category
+    - Price
+    - Author
+    - Publisher
 
 Users
-- Username
-- Password
-- Email address
+    - Username
+    - Password
+    - Email address
+
+day_to_day
+    - book name
+    - retrieve / rent
+    - days
+
+category
+    - name
+
+publisher
+    - name
+
+author
+    - name
 	
