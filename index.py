@@ -40,6 +40,7 @@ class MainApp(QMainWindow, ui):
         self.pushButton_7.clicked.connect(self.Add_New_Book)
         self.pushButton_9.clicked.connect(self.Search_Books)
         self.pushButton_8.clicked.connect(self.Edit_Books)
+        self.pushButton_10.clicked.connect(self.Delete_Books)
 
         self.pushButton_14.clicked.connect(self.Add_Category)
         self.pushButton_15.clicked.connect(self.Add_Author)
@@ -103,6 +104,13 @@ class MainApp(QMainWindow, ui):
         self.db = mysql.connector.connect(host='localhost', user='root', password='123', db='library')
         self.cur = self.db.cursor()
         
+        search_book_title = self.lineEdit_3.text().strip()
+        if not search_book_title: self.lineEdit_3.setText("Enter book name.."); return
+        
+        self.cur.execute("SELECT * FROM book WHERE book_name = %s", (search_book_title,))
+        data = self.cur.fetchone()
+        if data is None: self.lineEdit_3.setText("Book does not exist"); return
+        
         sql =  ''' SELECT * FROM book WHERE book_name = %s'''
         self.cur.execute(sql, [(book_title)])
         
@@ -115,8 +123,6 @@ class MainApp(QMainWindow, ui):
         self.comboBox_9.setCurrentIndex(data[5])    # author
         self.comboBox_10.setCurrentIndex(data[6])   # publisher
         self.lineEdit_7.setText(str(data[7]))       # price
-        
-        
         
 
     def Edit_Books(self):
@@ -131,7 +137,12 @@ class MainApp(QMainWindow, ui):
         book_publisher = self.comboBox_10.currentIndex()    # publisher
         book_price = self.lineEdit_7.text()                 # price
         
-        search_book_title = self.lineEdit_3.text()
+        search_book_title = self.lineEdit_3.text().strip()
+        if not search_book_title: self.lineEdit_3.setText("Enter book name.."); return
+        
+        self.cur.execute("SELECT * FROM book WHERE book_name = %s", (search_book_title,))
+        data = self.cur.fetchone()
+        if data is None: self.lineEdit_3.setText("Book does not exist"); return
         
         self.cur.execute('''
             UPDATE book SET book_name=%s ,book_description=%s ,book_code=%s ,book_category=%s ,book_author=%s ,book_publisher=%s ,book_price=%s WHERE book_name=%s              
@@ -140,7 +151,18 @@ class MainApp(QMainWindow, ui):
         self.statusBar().showMessage('Book Updated')
         
     def Delete_Books(self):
-        pass
+        self.db = mysql.connector.connect(host='localhost', user='root', password='123', db='library')
+        self.cur = self.db.cursor()
+        
+        book_title = self.lineEdit_3.text()
+        warning = QMessageBox.warning(self, 'Delete Book', "Are you sure you want to delete this book?", QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        if warning == QMessageBox.StandardButton.Yes:
+            sql = '''DELETE FROM book WHERE book_name = %s'''
+            self.cur.execute(sql, (book_title,))  # Use tuple format
+            self.db.commit()
+
+            self.statusBar().showMessage('Book Deleted Successfully')
+        
 
     #################################
     ########## USERS ################
