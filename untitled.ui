@@ -372,19 +372,6 @@
          </rect>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lineEdit_4">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>110</y>
-          <width>381</width>
-          <height>231</height>
-         </rect>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-        </property>
-       </widget>
        <widget class="QLineEdit" name="lineEdit_5">
         <property name="geometry">
          <rect>
@@ -526,6 +513,16 @@
          <string>Category</string>
         </property>
        </widget>
+       <widget class="QTextEdit" name="textEdit">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>110</y>
+          <width>381</width>
+          <height>231</height>
+         </rect>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="tab_6">
        <attribute name="title">
@@ -588,19 +585,6 @@
         </property>
         <property name="text">
          <string>Author</string>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="lineEdit_8">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>140</y>
-          <width>381</width>
-          <height>201</height>
-         </rect>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
         </property>
        </widget>
        <widget class="QLineEdit" name="lineEdit_9">
@@ -742,6 +726,16 @@
         </property>
         <property name="text">
          <string>Delete</string>
+        </property>
+       </widget>
+       <widget class="QTextEdit" name="textEdit_2">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>140</y>
+          <width>381</width>
+          <height>201</height>
+         </rect>
         </property>
        </widget>
       </widget>
@@ -1285,7 +1279,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>770</x>
+      <x>780</x>
       <y>0</y>
       <width>351</width>
       <height>501</height>
