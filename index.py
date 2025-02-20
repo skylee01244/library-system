@@ -38,13 +38,13 @@ class MainApp(QMainWindow, ui):
         self.pushButton_4.clicked.connect(self.Open_Settings_Tab)
 
         self.pushButton_7.clicked.connect(self.Add_New_Book)
-
+        self.pushButton_9.clicked.connect(self.Search_Books)
+        self.pushButton_8.clicked.connect(self.Edit_Books)
 
         self.pushButton_14.clicked.connect(self.Add_Category)
         self.pushButton_15.clicked.connect(self.Add_Author)
         self.pushButton_16.clicked.connect(self.Add_Publisher)
-        
-        self.pushButton_9.clicked.connect(self.Search_Books)
+
 
     def Show_Themes(self):
         self.groupBox_3.show()
@@ -107,21 +107,38 @@ class MainApp(QMainWindow, ui):
         self.cur.execute(sql, [(book_title)])
         
         data = self.cur.fetchone()
-        print(data)
-        self.lineEdit_10.setText(data[1])
-        self.textEdit_2.setPlainText(data[2])
-        self.lineEdit_9.setText(data[3])
-        self.comboBox_8.setCurrentIndex(data[4])
-        self.comboBox_9.setCurrentIndex(data[5])
-        self.comboBox_10.setCurrentIndex(data[6])
-        self.lineEdit_7.setText(str(data[7]))
+        # print(data)
+        self.lineEdit_10.setText(data[1])           # title
+        self.textEdit_2.setPlainText(data[2])       # description
+        self.lineEdit_9.setText(data[3])            # code
+        self.comboBox_8.setCurrentIndex(data[4])    # category
+        self.comboBox_9.setCurrentIndex(data[5])    # author
+        self.comboBox_10.setCurrentIndex(data[6])   # publisher
+        self.lineEdit_7.setText(str(data[7]))       # price
         
         
         
 
     def Edit_Books(self):
-        pass
-
+        self.db = mysql.connector.connect(host='localhost', user='root', password='123', db='library')
+        self.cur = self.db.cursor()
+        
+        book_title = self.lineEdit_10.text()                # title
+        book_description = self.textEdit_2.toPlainText()    # description
+        book_code = self.lineEdit_9.text()                  # code
+        book_category = self.comboBox_8.currentIndex()      # category
+        book_author = self.comboBox_9.currentIndex()        # author
+        book_publisher = self.comboBox_10.currentIndex()    # publisher
+        book_price = self.lineEdit_7.text()                 # price
+        
+        search_book_title = self.lineEdit_3.text()
+        
+        self.cur.execute('''
+            UPDATE book SET book_name=%s ,book_description=%s ,book_code=%s ,book_category=%s ,book_author=%s ,book_publisher=%s ,book_price=%s WHERE book_name=%s              
+        ''', (book_title, book_description, book_code, book_category, book_author, book_publisher, book_price, search_book_title))
+        self.db.commit()
+        self.statusBar().showMessage('Book Updated')
+        
     def Delete_Books(self):
         pass
 
