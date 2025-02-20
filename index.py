@@ -43,6 +43,8 @@ class MainApp(QMainWindow, ui):
         self.pushButton_14.clicked.connect(self.Add_Category)
         self.pushButton_15.clicked.connect(self.Add_Author)
         self.pushButton_16.clicked.connect(self.Add_Publisher)
+        
+        self.pushButton_9.clicked.connect(self.Search_Books)
 
     def Show_Themes(self):
         self.groupBox_3.show()
@@ -97,7 +99,25 @@ class MainApp(QMainWindow, ui):
         
         
     def Search_Books(self):
-        pass
+        book_title = self.lineEdit_3.text()
+        self.db = mysql.connector.connect(host='localhost', user='root', password='123', db='library')
+        self.cur = self.db.cursor()
+        
+        sql =  ''' SELECT * FROM book WHERE book_name = %s'''
+        self.cur.execute(sql, [(book_title)])
+        
+        data = self.cur.fetchone()
+        print(data)
+        self.lineEdit_10.setText(data[1])
+        self.textEdit_2.setPlainText(data[2])
+        self.lineEdit_9.setText(data[3])
+        self.comboBox_8.setCurrentIndex(data[4])
+        self.comboBox_9.setCurrentIndex(data[5])
+        self.comboBox_10.setCurrentIndex(data[6])
+        self.lineEdit_7.setText(str(data[7]))
+        
+        
+        
 
     def Edit_Books(self):
         pass
@@ -239,8 +259,10 @@ class MainApp(QMainWindow, ui):
         data = self.cur.fetchall()
 
         self.comboBox_5.clear()
+        self.comboBox_8.clear()
         for category in data:
             self.comboBox_5.addItem(category[0]) 
+            self.comboBox_8.addItem(category[0])
 
     def Show_Author_Combobox(self):
         self.db = mysql.connector.connect(host='localhost', user='root', password='123', db='library')
@@ -250,8 +272,10 @@ class MainApp(QMainWindow, ui):
         data = self.cur.fetchall()
 
         self.comboBox_6.clear()
+        self.comboBox_9.clear()
         for author in data:
             self.comboBox_6.addItem(author[0])
+            self.comboBox_9.addItem(author[0])
 
     def Show_Publisher_Combobox(self):
         self.db = mysql.connector.connect(host='localhost', user='root', password='123', db='library')
@@ -261,8 +285,10 @@ class MainApp(QMainWindow, ui):
         data = self.cur.fetchall()
 
         self.comboBox_7.clear()
+        self.comboBox_10.clear()
         for publisher in data:
             self.comboBox_7.addItem(publisher[0])
+            self.comboBox_10.addItem(publisher[0])
 
 def main():
     app = QApplication(sys.argv)
