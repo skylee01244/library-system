@@ -48,6 +48,7 @@ class MainApp(QMainWindow, ui):
         
         self.pushButton_11.clicked.connect(self.Add_New_User)
         self.pushButton_12.clicked.connect(self.Login)
+        self.pushButton_13.clicked.connect(self.Edit_User)
 
 
     def Show_Themes(self):
@@ -197,12 +198,42 @@ class MainApp(QMainWindow, ui):
         
 
     def Login(self):
+        self.db = mysql.connector.connect(host='localhost', user='root', password='123', db='library')
+        self.cur = self.db.cursor()
+        
         username = self.lineEdit_17.text()
         password = self.lineEdit_15.text()
+        
+        sql = ''' SELECT * FROM users '''
+        self.cur.execute(sql)
+        data = self.cur.fetchall()
+        for row in data:
+            if(username == row[1] and password == row[3]):
+                self.statusBar().showMessage('Valid Username & Password')
+                self.groupBox_4.setEnabled(True)
+                self.lineEdit_20.setText(row[1])
+                self.lineEdit_19.setText(row[2])
+                self.lineEdit_16.setText(row[3])
 
     def Edit_User(self):
-        pass
+        username = self.lineEdit_20.text()
+        useremail = self.lineEdit_19.text()
+        password = self.lineEdit_16.text()
+        password2 = self.lineEdit_18.text()
+        
+        original_name = self.lineEdit_17.text()
 
+        if(password == password2):
+            self.db = mysql.connector.connect(host='localhost', user='root', password='123', db='library')
+            self.cur = self.db.cursor()
+            
+            self.cur.execute('''
+                UPDATE users SET user_name = %s, user_email = %s, user_password = %s WHERE user_name = %s                
+            ''', (username, useremail, password, original_name))
+            self.db.commit()
+            self.statusBar().showMessage('User Data Updated Successfully')
+        else:
+            print('Make sure you entered your password correctly')
     #################################
     ########## SETTINGS #############
 
