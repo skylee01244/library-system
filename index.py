@@ -45,6 +45,9 @@ class MainApp(QMainWindow, ui):
         self.pushButton_14.clicked.connect(self.Add_Category)
         self.pushButton_15.clicked.connect(self.Add_Author)
         self.pushButton_16.clicked.connect(self.Add_Publisher)
+        
+        self.pushButton_11.clicked.connect(self.Add_New_User)
+        self.pushButton_12.clicked.connect(self.Login)
 
 
     def Show_Themes(self):
@@ -168,10 +171,34 @@ class MainApp(QMainWindow, ui):
     ########## USERS ################
 
     def Add_New_User(self):
-        pass
+        self.db = mysql.connector.connect(host='localhost', user='root', password='123', db='library')
+        self.cur = self.db.cursor()
+        
+        username = self.lineEdit_11.text()
+        email = self.lineEdit_12.text()
+        password = self.lineEdit_13.text()
+        password2 = self.lineEdit_14.text()
+        
+        if(password == password2): 
+            self.cur.execute('''
+                INSERT INTO users(user_name, user_email, user_password)
+                VALUES (%s, %s, %s)           
+            ''', (username, email, password))
+            self.db.commit()
+            self.statusBar().showMessage('New User Added')
+            self.label_30.setText('User Successfully Added')
+            
+            self.lineEdit_11.setText('')
+            self.lineEdit_12.setText('')
+            self.lineEdit_13.setText('')
+            self.lineEdit_14.setText('')
+        else:
+            self.label_30.setText('Passwords do not match')
+        
 
     def Login(self):
-        pass
+        username = self.lineEdit_17.text()
+        password = self.lineEdit_15.text()
 
     def Edit_User(self):
         pass
