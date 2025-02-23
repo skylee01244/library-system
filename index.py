@@ -386,7 +386,31 @@ class MainApp(QMainWindow, ui):
         for publisher in data:
             self.comboBox_7.addItem(publisher[0])
             self.comboBox_10.addItem(publisher[0])
+            
+            
+    #################################
+    ########## UI ###################
 
+    def Dark_Blue_Theme(self):
+        style = open('themes/dark_blue.css' , 'r')
+        style = style.read()
+        self.setStyleSheet(style)
+    
+    def Dark_Grey_Theme(self):
+        style = open('themes/style_gray.css' , 'r')
+        style = style.read()
+        self.setStyleSheet(style)
+    
+    def Classic_Theme(self):
+        style = open('themes/classic.css' , 'r')
+        style = style.read()
+        self.setStyleSheet(style)
+    
+    def Dark_Orange_Theme(self):
+        style = open('themes/dark_orange.css' , 'r')
+        style = style.read()
+        self.setStyleSheet(style)
+    
 def main():
     app = QApplication(sys.argv)
     window = MainApp()
