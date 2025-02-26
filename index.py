@@ -204,7 +204,19 @@ class MainApp(QMainWindow, ui):
         pass
     
     def Search_Client(self):
-        pass
+        self.db = mysql.connector.connect(host='localhost', user='root', password='123', db='library')
+        self.cur = self.db.cursor()
+        client_passport_id = self.lineEdit_27.text()
+        
+        sql = ''' SELECT * FROM clients WHERE client_passport_number = %s'''
+        self.cur.execute(sql, [(client_passport_id)])
+        data = self.cur.fetchone()
+        # print(data)
+        
+        self.lineEdit_25.setText(data[1])
+        self.lineEdit_26.setText(data[2])
+        self.lineEdit_28.setText(data[3])
+        
     
     def Edit_Client(self):
         pass
