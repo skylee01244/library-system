@@ -1,6 +1,8 @@
 from PyQt6.QtCore import * 
 from PyQt6.QtGui import *
-from PyQt6.QtWidgets import * 
+from PyQt6.QtWidgets import *
+from xlrd import *
+import xlsxwriter
 import sys
 import mysql.connector
 import datetime
@@ -100,6 +102,10 @@ class MainApp(QMainWindow, ui):
         self.pushButton_25.clicked.connect(self.Delete_Client)
         
         self.pushButton_6.clicked.connect(self.Handle_Day_Operations)
+        
+        self.pushButton_29.clicked.connect(self.Export_Day_Operations)
+        self.pushButton_27.clicked.connect(self.Export_Books)
+        self.pushButton_28.clicked.connect(self.Export_Clients)
 
 
     def Show_Themes(self):
@@ -611,6 +617,76 @@ class MainApp(QMainWindow, ui):
             
     #################################
     ########## UI ###################   
+    
+    def Export_Day_Operations(self):
+        self.db = mysql.connector.connect(host='localhost', user='root', password='123', db='library')
+        self.cur = self.db.cursor()
+        
+        self.cur.execute('''SELECT book_name, client, type, date, to_date FROM dayoperations''')
+        data = self.cur.fetchall()
+        wb = xlsxwriter.Workbook('day_operations.xlsx')
+        sheet1 = wb.add_worksheet()
+
+        # Write headers
+        headers = ['Book Title', 'Client Title', 'Type', 'From - Date', 'To - Date']
+        for col, header in enumerate(headers):
+            sheet1.write(0, col, header)
+
+        # Write data
+        for row, row_data in enumerate(data, start=1):
+            for col, item in enumerate(row_data):
+                sheet1.write(row, col, str(item))
+
+        self.statusBar().showMessage('Operations Report Created Successfully')
+        wb.close()
+        self.db.close()
+        
+    
+    def Export_Books(self):
+        self.db = mysql.connector.connect(host='localhost', user='root', password='123', db='library')
+        self.cur = self.db.cursor()
+        
+        self.cur.execute('''SELECT book_code, book_name, book_description, book_category, book_author, book_publisher, book_price FROM book''')
+        data = self.cur.fetchall()
+        wb = xlsxwriter.Workbook('books.xlsx')
+        sheet1 = wb.add_worksheet()
+
+        # Write headers
+        headers = ['Book Code', 'Book Name', 'Book Description', 'Book Category', 'Book Author', 'Book Publisher', 'Book Price']
+        for col, header in enumerate(headers):
+            sheet1.write(0, col, header)
+
+        # Write data
+        for row, row_data in enumerate(data, start=1):
+            for col, item in enumerate(row_data):
+                sheet1.write(row, col, str(item))
+
+        self.statusBar().showMessage('Book Report Created Successfully')
+        wb.close()
+        self.db.close()
+    
+    def Export_Clients(self):
+        self.db = mysql.connector.connect(host='localhost', user='root', password='123', db='library')
+        self.cur = self.db.cursor()
+        
+        self.cur.execute('''SELECT client_name, client_email, client_passport_number FROM clients''')
+        data = self.cur.fetchall()
+        wb = xlsxwriter.Workbook('clients.xlsx')
+        sheet1 = wb.add_worksheet()
+
+        # Write headers
+        headers = ['Client Name', 'Client Email', 'Client Passport Number']
+        for col, header in enumerate(headers):
+            sheet1.write(0, col, header)
+
+        # Write data
+        for row, row_data in enumerate(data, start=1):
+            for col, item in enumerate(row_data):
+                sheet1.write(row, col, str(item))
+
+        self.statusBar().showMessage('Clients Report Created Successfully')
+        wb.close()
+        self.db.close()
          
     #################################
     ########## UI ###################
