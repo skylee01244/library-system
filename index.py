@@ -22,6 +22,9 @@ class MainApp(QMainWindow, ui):
         self.Show_Category_Combobox()
         self.Show_Author_Combobox()
         self.Show_Publisher_Combobox()
+        
+        self.Show_All_Clients()
+        self.Show_All_Books()
 
     
     def Handle_UI_Changes(self):
@@ -96,9 +99,9 @@ class MainApp(QMainWindow, ui):
         book_title = self.lineEdit_2.text()
         book_description = self.textEdit.toPlainText() 
         book_code = self.lineEdit_5.text()
-        book_category = self.comboBox_5.currentIndex()
-        book_author = self.comboBox_6.currentIndex()
-        book_publisher = self.comboBox_7.currentIndex()
+        book_category = self.comboBox_5.currentText()
+        book_author = self.comboBox_6.currentText()
+        book_publisher = self.comboBox_7.currentText()
         book_price = self.lineEdit_6.text()
 
         self.cur.execute(''' 
@@ -115,7 +118,34 @@ class MainApp(QMainWindow, ui):
         self.comboBox_6.setCurrentIndex(0)
         self.comboBox_7.setCurrentIndex(0)
         self.lineEdit_6.setText('')
+        self.Show_All_Books()
         
+    def Show_All_Books(self):
+        self.db = mysql.connector.connect(host='localhost', user='root', password='123', db='library')
+        self.cur = self.db.cursor()
+        
+        self.cur.execute('''SELECT book_code, book_name, book_description, book_category, book_author, book_publisher, book_price FROM book''')
+        data = self.cur.fetchall()
+        # print(data)
+        self.tableWidget_6.setRowCount(0)
+        self.tableWidget_6.insertRow(0)
+        for row, form in enumerate(data):
+            for col , item in enumerate(form):
+                self.tableWidget_6.setItem(row,col, QTableWidgetItem(str(item)))
+                col += 1
+            row_position = self.tableWidget_6.rowCount()
+            self.tableWidget_6.insertRow(row_position)
+        # self.tableWidget_6.resizeColumnsToContents()
+        # self.tableWidget_6.resizeRowsToContents()
+        # self.tableWidget_6.resizeColumnsToContents()
+        # self.tableWidget_6.resizeRowToContents(0)
+        
+        column_widths = [100, 200, 200, 150, 150, 150, 100] 
+
+        for col in range(len(column_widths)):
+            self.tableWidget_6.setColumnWidth(col, column_widths[col])
+        self.db.close()
+        # self.Show_All_Books()
         
     def Search_Books(self):
         book_title = self.lineEdit_3.text()
@@ -137,9 +167,9 @@ class MainApp(QMainWindow, ui):
         self.lineEdit_10.setText(data[1])           # title
         self.textEdit_2.setPlainText(data[2])       # description
         self.lineEdit_9.setText(data[3])            # code
-        self.comboBox_8.setCurrentIndex(data[4])    # category
-        self.comboBox_9.setCurrentIndex(data[5])    # author
-        self.comboBox_10.setCurrentIndex(data[6])   # publisher
+        self.comboBox_8.setCurrentText(data[4])    # category
+        self.comboBox_9.setCurrentText(data[5])    # author
+        self.comboBox_10.setCurrentText(data[6])   # publisher
         self.lineEdit_7.setText(str(data[7]))       # price
         
 
@@ -150,9 +180,9 @@ class MainApp(QMainWindow, ui):
         book_title = self.lineEdit_10.text()                # title
         book_description = self.textEdit_2.toPlainText()    # description
         book_code = self.lineEdit_9.text()                  # code
-        book_category = self.comboBox_8.currentIndex()      # category
-        book_author = self.comboBox_9.currentIndex()        # author
-        book_publisher = self.comboBox_10.currentIndex()    # publisher
+        book_category = self.comboBox_8.currentText()      # category
+        book_author = self.comboBox_9.currentText()        # author
+        book_publisher = self.comboBox_10.currentText()    # publisher
         book_price = self.lineEdit_7.text()                 # price
         
         search_book_title = self.lineEdit_3.text().strip()
@@ -167,6 +197,7 @@ class MainApp(QMainWindow, ui):
         ''', (book_title, book_description, book_code, book_category, book_author, book_publisher, book_price, search_book_title))
         self.db.commit()
         self.statusBar().showMessage('Book Updated')
+        self.Show_All_Books()
         
     def Delete_Books(self):
         self.db = mysql.connector.connect(host='localhost', user='root', password='123', db='library')
@@ -180,6 +211,7 @@ class MainApp(QMainWindow, ui):
             self.db.commit()
 
             self.statusBar().showMessage('Book Deleted Successfully')
+            self.Show_All_Books()
     
     #################################
     ########## Clients ##############
@@ -198,10 +230,31 @@ class MainApp(QMainWindow, ui):
         ''', (client_name, client_email, client_passport_id))
         self.db.commit()
         self.db.close()
-        self.statusBar().showMessage('New Client Added')        
+        self.statusBar().showMessage('New Client Added')   
+        self.Show_All_Clients()     
     
     def Show_All_Clients(self):
-        pass
+        self.db = mysql.connector.connect(host='localhost', user='root', password='123', db='library')
+        self.cur = self.db.cursor()
+        
+        self.cur.execute('''SELECT client_name, client_email, client_passport_number FROM clients''')
+        data = self.cur.fetchall()
+        # print(data)
+        self.tableWidget_5.setRowCount(0)
+        self.tableWidget_5.insertRow(0)
+        for row, form in enumerate(data):
+            for col , item in enumerate(form):
+                self.tableWidget_5.setItem(row,col, QTableWidgetItem(str(item)))
+                col += 1
+            row_position = self.tableWidget_5.rowCount()
+            self.tableWidget_5.insertRow(row_position)
+        
+        column_widths = [200, 200, 200] 
+
+        for col in range(len(column_widths)):
+            self.tableWidget_5.setColumnWidth(col, column_widths[col])
+        
+        self.db.close()
     
     def Search_Client(self):
         self.db = mysql.connector.connect(host='localhost', user='root', password='123', db='library')
@@ -235,6 +288,7 @@ class MainApp(QMainWindow, ui):
         ''', (client_name, client_email, client_passport_id,client_original_passport_id))
         self.db.commit()
         self.statusBar().showMessage('Client Data Updated')
+        self.Show_All_Clients()
     
     def Delete_Client(self):
         client_original_passport_id = self.lineEdit_27.text()
@@ -249,6 +303,7 @@ class MainApp(QMainWindow, ui):
             self.db.commit()
             self.db.close()
             self.statusBar().showMessage('Client Deleted Successfully')
+            self.Show_All_Clients()
 
     #################################
     ########## USERS ################
