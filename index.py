@@ -3,6 +3,7 @@ from PyQt6.QtGui import *
 from PyQt6.QtWidgets import * 
 import sys
 import mysql.connector
+import datetime
 
 from PyQt6.uic import loadUiType
 
@@ -25,6 +26,8 @@ class MainApp(QMainWindow, ui):
         
         self.Show_All_Clients()
         self.Show_All_Books()
+        
+        self.Show_All_Operations()
 
     
     def Handle_UI_Changes(self):
@@ -63,6 +66,8 @@ class MainApp(QMainWindow, ui):
         self.pushButton_24.clicked.connect(self.Search_Client)
         self.pushButton_23.clicked.connect(self.Edit_Client)
         self.pushButton_25.clicked.connect(self.Delete_Client)
+        
+        self.pushButton_6.clicked.connect(self.Handle_Day_Operations)
 
 
     def Show_Themes(self):
@@ -89,9 +94,57 @@ class MainApp(QMainWindow, ui):
     def Open_Settings_Tab(self):
         self.tabWidget.setCurrentIndex(4)
 
+    #################################
+    ########## DAY 2 DAY ############
+    
+    def Handle_Day_Operations(self):
+        self.db = mysql.connector.connect(host='localhost', user='root', password='123', db='library')
+        self.cur = self.db.cursor()
+        
+        book_title = self.lineEdit.text()
+        client_name = self.lineEdit_29.text()
+        book_type = self.comboBox.currentText()
+        days_number = self.comboBox_2.currentIndex() + 1
+        today_date = datetime.date.today()
+        to_date = today_date + datetime.timedelta(days=int(days_number))
+        
+        self.cur.execute('''
+            INSERT INTO dayoperations(book_name, client, type, days, date, to_date) 
+            VALUES (%s, %s, %s, %s, %s, %s)           
+        ''', (book_title, client_name, book_type, days_number, today_date, to_date))
+        
+        self.db.commit()
+        self.statusBar().showMessage('New Operations Added')
+        
+        self.Show_All_Operations()
+
+    def Show_All_Operations(self):
+        self.db = mysql.connector.connect(host='localhost', user='root', password='123', db='library')
+        self.cur = self.db.cursor()
+        
+        self.cur.execute('''SELECT book_name, client, type, date, to_date FROM dayoperations''')
+        data = self.cur.fetchall()
+        
+        self.tableWidget.setRowCount(0)
+        self.tableWidget.insertRow(0)
+        for row, form in enumerate(data):
+            for col, item in enumerate(form):
+                self.tableWidget.setItem(row, col, QTableWidgetItem(str(item)))
+                col += 1
+            row_position = self.tableWidget.rowCount()
+            self.tableWidget.insertRow(row_position)
+            
+        column_widths = [150, 150, 150, 150, 150] 
+
+        for col in range(len(column_widths)):
+            self.tableWidget.setColumnWidth(col, column_widths[col])
+            
+        self.db.close()
+        
 
     #################################
     ########## BOOKS ################
+    
     def Add_New_Book(self):
         self.db = mysql.connector.connect(host='localhost', user='root', password='123', db='library')
         self.cur = self.db.cursor()
