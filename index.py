@@ -212,10 +212,13 @@ class MainApp(QMainWindow, ui):
         self.cur.execute(sql, [(client_passport_id)])
         data = self.cur.fetchone()
         # print(data)
-        
-        self.lineEdit_25.setText(data[1])
-        self.lineEdit_26.setText(data[2])
-        self.lineEdit_28.setText(data[3])
+        if data != None:
+            self.lineEdit_25.setText(data[1])
+            self.lineEdit_26.setText(data[2])
+            self.lineEdit_28.setText(data[3])
+        else:
+            self.lineEdit_27.setText('No Client is found')
+            self.statusBar().showMessage('No Client is found')
         
     
     def Edit_Client(self):
@@ -234,7 +237,18 @@ class MainApp(QMainWindow, ui):
         self.statusBar().showMessage('Client Data Updated')
     
     def Delete_Client(self):
-        pass 
+        client_original_passport_id = self.lineEdit_27.text()
+        
+        warning = QMessageBox.warning(self, 'Delete Client', "Are you sure you want to delete this client?", QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        if warning == QMessageBox.StandardButton.Yes:
+            self.db = mysql.connector.connect(host='localhost', user='root', password='123', db='library')
+            self.cur = self.db.cursor()
+            
+            sql = ('''DELETE FROM clients WHERE client_passport_number = %s''')
+            self.cur.execute(sql, [(client_original_passport_id)])
+            self.db.commit()
+            self.db.close()
+            self.statusBar().showMessage('Client Deleted Successfully')
 
     #################################
     ########## USERS ################
