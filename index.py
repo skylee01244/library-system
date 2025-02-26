@@ -8,6 +8,38 @@ import datetime
 from PyQt6.uic import loadUiType
 
 ui,_ = loadUiType('untitled.ui')
+login,_ = loadUiType('login.ui')
+
+
+class Login(QWidget, login):
+    def __init__(self):
+        QWidget.__init__(self)
+        self.setupUi(self)
+        
+        self.pushButton.clicked.connect(self.Handle_Login)
+        
+    def Handle_Login(self):
+        self.db = mysql.connector.connect(host='localhost', user='root', password='123', db='library')
+        self.cur = self.db.cursor()
+        
+        username = self.lineEdit.text()
+        password = self.lineEdit_2.text()
+        
+        sql = ''' SELECT * FROM users '''
+        self.cur.execute(sql)
+        data = self.cur.fetchall()
+        for row in data:
+            if(username == row[1] and password == row[3]):
+                print("Login Successful")
+                self.window2 = MainApp()
+                self.close()
+                self.window2.show()
+            else:
+                self.label.setText('Wrong Username and Password')
+                self.lineEdit.setText('')
+                self.lineEdit_2.setText('')
+                
+        
 
 class MainApp(QMainWindow, ui):
     def __init__(self):
@@ -577,7 +609,9 @@ class MainApp(QMainWindow, ui):
             self.comboBox_7.addItem(publisher[0])
             self.comboBox_10.addItem(publisher[0])
             
-            
+    #################################
+    ########## UI ###################   
+         
     #################################
     ########## UI ###################
 
@@ -600,10 +634,12 @@ class MainApp(QMainWindow, ui):
         style = open('themes/dark_orange.css' , 'r')
         style = style.read()
         self.setStyleSheet(style)
+
     
 def main():
     app = QApplication(sys.argv)
-    window = MainApp()
+    # window = MainApp()
+    window = Login()
     window.show()
     app.exec()
 
