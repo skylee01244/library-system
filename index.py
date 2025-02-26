@@ -219,7 +219,19 @@ class MainApp(QMainWindow, ui):
         
     
     def Edit_Client(self):
-        pass
+        client_original_passport_id = self.lineEdit_27.text()
+        client_name = self.lineEdit_25.text()
+        client_email = self.lineEdit_26.text()
+        client_passport_id = self.lineEdit_28.text()
+        
+        self.db = mysql.connector.connect(host='localhost', user='root', password='123', db='library')
+        self.cur = self.db.cursor()
+        
+        self.cur.execute('''
+            UPDATE clients SET client_name=%s, client_email=%s, client_passport_number=%s WHERE client_passport_number = %s  
+        ''', (client_name, client_email, client_passport_id,client_original_passport_id))
+        self.db.commit()
+        self.statusBar().showMessage('Client Data Updated')
     
     def Delete_Client(self):
         pass 
