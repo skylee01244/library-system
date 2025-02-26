@@ -55,6 +55,11 @@ class MainApp(QMainWindow, ui):
         self.pushButton_18.clicked.connect(self.Dark_Grey_Theme)
         self.pushButton_20.clicked.connect(self.Classic_Theme)
         self.pushButton_22.clicked.connect(self.Dark_Orange_Theme)
+        
+        self.pushButton_17.clicked.connect(self.Add_New_Client)
+        self.pushButton_24.clicked.connect(self.Search_Client)
+        self.pushButton_23.clicked.connect(self.Edit_Client)
+        self.pushButton_25.clicked.connect(self.Delete_Client)
 
 
     def Show_Themes(self):
@@ -175,7 +180,37 @@ class MainApp(QMainWindow, ui):
             self.db.commit()
 
             self.statusBar().showMessage('Book Deleted Successfully')
+    
+    #################################
+    ########## Clients ##############
+
+    def Add_New_Client(self):
+        self.db = mysql.connector.connect(host='localhost', user='root', password='123', db='library')
+        self.cur = self.db.cursor()
         
+        client_name = self.lineEdit_4.text()
+        client_email = self.lineEdit_8.text()
+        client_passport_id = self.lineEdit_24.text()
+        
+        self.cur.execute('''
+            INSERT INTO clients(client_name, client_email, client_passport_number)
+            VALUES (%s, %s, %s)    
+        ''', (client_name, client_email, client_passport_id))
+        self.db.commit()
+        self.db.close()
+        self.statusBar().showMessage('New Client Added')        
+    
+    def Show_All_Clients(self):
+        pass
+    
+    def Search_Client(self):
+        pass
+    
+    def Edit_Client(self):
+        pass
+    
+    def Delete_Client(self):
+        pass 
 
     #################################
     ########## USERS ################
