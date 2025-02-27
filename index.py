@@ -500,6 +500,11 @@ class MainApp(QMainWindow, ui):
                     col += 1
                 row_position = self.tableWidget_2.rowCount()
                 self.tableWidget_2.insertRow(row_position)
+                
+        column_widths = [300] 
+
+        for col in range(len(column_widths)):
+            self.tableWidget_2.setColumnWidth(col, column_widths[col])
 
 
     def Add_Author(self):
@@ -536,6 +541,11 @@ class MainApp(QMainWindow, ui):
                     col += 1
                 row_position = self.tableWidget_3.rowCount()
                 self.tableWidget_3.insertRow(row_position)
+        
+        column_widths = [300] 
+
+        for col in range(len(column_widths)):
+            self.tableWidget_3.setColumnWidth(col, column_widths[col])
 
     def Add_Publisher(self):
         self.db = mysql.connector.connect(host='localhost', user='root', password='123', db='library')
@@ -571,6 +581,11 @@ class MainApp(QMainWindow, ui):
                     col += 1
                 row_position = self.tableWidget_4.rowCount()
                 self.tableWidget_4.insertRow(row_position)
+                
+        column_widths = [300] 
+
+        for col in range(len(column_widths)):
+            self.tableWidget_4.setColumnWidth(col, column_widths[col])
 
 
     #################################
