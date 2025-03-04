@@ -33,6 +33,12 @@ pyinstaller --name=LibrarySystem --windowed --onefile --icon=icons/library.icns 
 **7) Run the Application**  
  To run the application, execute the `LibrarySystem.exe` file in your project directory.  
 
+## Pre-Built Applications
+For your convenience, the repository includes pre-built executables for both major operating systems:  
+- `library-system-windows/` Contains the ready-to-run .exe application for Windows.  
+- `library-system-mac/`  Contains the pre-compiled .app bundle for macOS.  
+Simply download the appropriate folder for your system, open it, and launch the application directly—no manual build process required.  
+
 ## Usage
 Login with 
 ```
