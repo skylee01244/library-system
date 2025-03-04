@@ -3,18 +3,8 @@ This Library Management System is a robust application built using Python **PyQt
 
 ## Build Instructions
 **1) Install Required Packages**  
-> For a multi-configuration generator (Windows)
 ```
 pip install PyQt6 xlrd xlsxwriter mysql-connector-python pyinstaller
-```
-> For a single-configuration generator (LINUX & MACOS)  
-> ⚠️ **Warning** Option 1 will need a virtual env while option 2 & 3 are risky
-```
-pip install PyQt6 xlrd xlsxwriter mysql-connector-python pyinstaller
-or
-python3 -m pip install --user PyQt6 xlrd xlsxwriter mysql-connector-python pyinstaller
-or
-python3 -m pip install --break-system-packages PyQt6 xlrd xlsxwriter mysql-connector-python pyinstaller
 ```
 **2) Install MySQL Server & MySQL WorkBench**  
 Download MySQL Server [here](https://dev.mysql.com/downloads/mysql/)  
