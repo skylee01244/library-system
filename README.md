@@ -1,6 +1,8 @@
 # A Library Management System
 This Library Management System is a robust application built using Python **PyQt6** and integrated with a **MySQL** database. The system offers comprehensive features to manage library operations efficiently
 
+![Screenshot of Library System](/images/library_screen.png)
+
 ## Build Instructions
 **1) Install Required Packages**  
 ```
