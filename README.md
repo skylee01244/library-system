@@ -4,36 +4,36 @@ This Library Management System is a robust application built using Python **PyQt
 ![Screenshot of Library System](/images/library_screen.png)
 
 ## Build Instructions
-**1) Install Required Packages**  
-```
-pip install PyQt6 xlrd xlsxwriter mysql-connector-python pyinstaller
-```
-**2) Install MySQL Server & MySQL WorkBench**  
-Download MySQL Server [here](https://dev.mysql.com/downloads/mysql/)  
-Download MySQL Workbench [here](https://www.mysql.com/products/workbench/)  
+1) **Install Required Packages**  
+   ```
+   pip install PyQt6 xlrd xlsxwriter mysql-connector-python pyinstaller
+   ```  
+2) **Install MySQL Server & MySQL WorkBench**  
+   Download MySQL Server [here](https://dev.mysql.com/downloads/mysql/)  
+   Download MySQL Workbench [here](https://www.mysql.com/products/workbench/)    
 
-**3) Import Data into the Database**  
-To create the database, import the `library_data.sql` file into SQL Workbench.  
+3) **Import Data into the Database**  
+   To create the database, import the `library_data.sql` file into SQL Workbench.  
 
-**4) Navigate to Your Project Directory**  
-Open your terminal and navigate to the project directory where `index.py` is located.  
+4) **Navigate to Your Project Directory**  
+   Open your terminal and navigate to the project directory where `index.py` is located.  
 
-**5) Build the Executable**  
-> For a multi-configuration generator (Windows)
-```
-pyinstaller --name=LibrarySystem --windowed --onefile --icon=icons/library.ico --add-data "home.ui;." --add-data "login.ui;." --add-data "library_data.db;." --add-data "themes/*;themes/" --add-data "icons/*;icons/" --add-data "icons.qrc;." --hidden-import=icons_rc --exclude PySide6 index.py
-```
-> For a single-configuration generator (LINUX & MACOS) 
-```
-pyinstaller --name=LibrarySystem --windowed --onefile --icon=icons/library.icns --add-data "home.ui:." --add-data "login.ui:." --add-data "library_data.db:." --add-data "themes/*:themes/" --add-data "icons/*:icons/" --add-data "icons.qrc:." --hidden-import=icons_rc --exclude-module PySide6 index.py
-```
-→ PyInstaller will create a `dist` folder inside your project directory. Your executable will be located inside `dist/LibrarySystem.exe`.
+5) **Build the Executable**  
+   > For a multi-configuration generator (Windows)
+   ```
+   pyinstaller --name=LibrarySystem --windowed --onefile --icon=icons/library.ico --add-data "home.ui;." --add-data "login.ui;." --add-data "library_data.db;." --add-data "themes/*;themes/" --add-data "icons/*;icons/" --add-data "icons.qrc;." --hidden-import=icons_rc --exclude PySide6 index.py
+   ```
+   > For a single-configuration generator (LINUX & MACOS) 
+   ```
+   pyinstaller --name=LibrarySystem --windowed --onefile --icon=icons/library.icns --add-data "home.ui:." --add-data "login.ui:." --add-data "library_data.db:." --add-data "themes/*:themes/" --add-data "icons/*:icons/" --add-data "icons.qrc:." --hidden-import=icons_rc --exclude-module PySide6 index.py
+   ```
+   → PyInstaller will create a `dist` folder inside your project directory. Your executable will be located inside `dist/LibrarySystem.exe`.
 
-**6) Relocate the Executable**  
- Move the executable file out of the `dist` directory and place it in your project directory (where `index.py` is located).
+6) **Relocate the Executable**  
+   Move the executable file out of the `dist` directory and place it in your project directory (where `index.py` is located).
 
-**7) Run the Application**  
- To run the application, execute the `LibrarySystem.exe` file in your project directory.  
+7) **Run the Application**  
+   To run the application, execute the `LibrarySystem.exe` file in your project directory.  
 
 ## Pre-Built Applications
 For your convenience, the repository includes pre-built executables for both major operating systems:  
